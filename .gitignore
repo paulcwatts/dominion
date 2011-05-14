@@ -1,0 +1,4 @@
+.project
+.pydevproject
+dominion.egg-info/
+*.pyc
