@@ -11,7 +11,7 @@ from fabric.api import env, put
 from django.template.loader import render_to_string
 from django.utils._os import safe_join
 
-from minion.utils import get_host_role
+from dominion.utils import get_host_role
 
 def get_templates(template_name):
     """
