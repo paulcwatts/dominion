@@ -5,7 +5,7 @@ setup(
       name='dominion',
       version=__import__('dominion').__version__,
       author='Paul Watts',
-      author_email='paul@meevine.com',
+      author_email='paulcwatts@gmail.com',
       description='Easy, Pythonic configuration management. Think Puppet for Python/Django. In development',
       license='BSD',
       url='https://github.com/paulcwatts/dominion',
