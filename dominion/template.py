@@ -34,7 +34,6 @@ def get_templates(template_name):
         return template_name
 
 def put_template(template_name, remote_path, dictionary=None, **kwargs):
-    import pdb; pdb.set_trace()
     d = dictionary or {}
     d.update({
         'env': env
