@@ -39,7 +39,7 @@ class File(Requirement):
             f("mkdir -p '%s'" % self.name)
 
         elif self.symlink:
-            f("ln -s '%s' '%s'" % (self.symlink, self.name))
+            f("[ -L '%s' ] || ln -s '%s' '%s'" % (self.name, self.symlink, self.name))
 
         elif self.template:
             put_template(self.template, self.name,
