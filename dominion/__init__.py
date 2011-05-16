@@ -9,11 +9,7 @@ from dominion.role import Role
 from dominion.template import put_template
 from dominion.utils import get_host_role
 
-
-__version__ = '0.1.0'
-
-__all__ = ('__version__',
-    'configure',
+__all__ = ('configure',
     'get_host_role',
     'put_template',
     'set_env',
