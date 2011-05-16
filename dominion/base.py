@@ -7,6 +7,8 @@ class Requirement(object):
         self.required = required
         self.ensure = ensure or "exists"
         self.depends = depends or ()
+        if self.ensure == "removed":
+            self.required = False
 
         # Increase the creation counter, and save our local copy.
         self.creation_counter = Requirement.creation_counter

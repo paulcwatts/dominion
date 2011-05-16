@@ -19,11 +19,16 @@ def get_templates(template_name):
     based on the current role and host.
     """
     result = []
+    denv = env['denv']
+    host = denv.get_host()
+    host_name = host.hostname
+    role_name = host.rolename
     for d in settings.TEMPLATE_DIRS:
         try:
             result.extend([
-                safe_join(d, "hosts", env.host, template_name),
-                safe_join(d, "roles", get_host_role(env.host), template_name),
+                safe_join(d, "hosts", host_name, template_name),
+                safe_join(d, "roles", role_name, template_name),
+                safe_join(d, "env", denv.name, template_name),
                 safe_join(d, template_name)
             ])
         except UnicodeDecodeError:

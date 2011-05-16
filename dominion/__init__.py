@@ -1,6 +1,7 @@
 
 from django.conf import settings
 from dominion.environment import Environment
+from dominion.file import File
 from dominion.host import Host
 from dominion.package import Package
 from dominion.base import Requirement
@@ -17,6 +18,7 @@ __all__ = ('__version__',
     'put_template',
     'set_env',
     'Environment',
+    'File',
     'Host',
     'Package',
     'Requirement',
