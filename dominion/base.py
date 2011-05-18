@@ -1,26 +1,33 @@
 
 class Requirement(object):
+    """
+    Requirements are the basis for Dominion. They define
+    what needs to exist on a host/role, or perhaps what *mustn't* exist.
+
+    Requirements are defined on Roles.
+    """
     creation_counter = 0
 
     "The base class for requirements."
-    def __init__(self, required=True, ensure=None, depends=None):
+    def __init__(self, required=True, ensure=None, depends=None, post=None):
         self.required = required
         self.ensure = ensure or "exists"
         self.depends = depends or ()
         if self.ensure == "removed":
             self.required = False
+        self.post = post or ()
 
         # Increase the creation counter, and save our local copy.
         self.creation_counter = Requirement.creation_counter
         Requirement.creation_counter += 1
 
-    def ensure_dependencies(self):
-        if not self.depends:
-            pass
+    def __call__(self):
+        self.apply()
 
-    def execute(self):
-        self.ensure_dependencies()
+    def apply(self):
         if self.ensure == "exists" or self.required:
-            return self.install()
+            if hasattr(self, 'install'):
+                return self.install()
         if self.ensure == "removed":
-            return self.uninstall()
+            if hasattr(self, 'uninstall'):
+                return self.uninstall()

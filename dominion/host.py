@@ -18,3 +18,7 @@ class Host(object):
         if hasattr(self, '_role'):
             return self._role
         return env['denv'].roles[self.rolename]
+
+    def apply(self, name="all"):
+        "Applies the role's requirements to this host."
+        self.role.apply(name)

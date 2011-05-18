@@ -2,7 +2,7 @@ from StringIO import StringIO
 
 import django.utils.copycompat as copy
 
-from fabric.api import put, run, sudo
+from fabric.api import put, run, sudo, settings
 
 from dominion.base import Requirement
 from dominion.template import put_template
@@ -28,6 +28,9 @@ class File(Requirement):
         self.mode = mode
         self.dictionary = dictionary
         self.use_sudo = use_sudo
+
+    def __repr__(self):
+        return 'dominion.File:' + str(self.name)
 
     def install(self):
         if self.use_sudo:
@@ -67,4 +70,5 @@ class File(Requirement):
         if self.directory:
             f("rm -rf '%s'" % self.name)
         else:
-            f("rm '%s'" % self.name)
+            with settings(warn_only=True):
+                f("rm '%s'" % self.name)

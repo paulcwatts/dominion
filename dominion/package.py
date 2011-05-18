@@ -22,6 +22,9 @@ class Package(Requirement):
         if not self.install or not self.uninstall:
             raise ValueError("Unknown package manager: " + self.manager)
 
+    def __repr__(self):
+        return 'dominion.Package:' + str(self.package_name)
+
     def _install_apt(self):
         sudo("apt-get install -q -y " + self.package_name)
 

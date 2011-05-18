@@ -33,9 +33,78 @@ class BaseRole(object):
         self.creation_counter = Role.creation_counter
         Role.creation_counter += 1
 
-    def execute(self):
-        for name, req in self.reqs.iteritems():
-            req.execute()
+    def apply(self, req="all"):
+        if req == "all":
+            return self._apply_seq(self.reqs.iteritems())
+        if isinstance(req, tuple) or isinstance(req, list):
+            seq = [(name, self.reqs[name]) for name in req]
+            return self._apply_seq(seq)
+        else:
+            seq = ((req, self.reqs[req]),)
+            return self._apply_seq(seq)
+
+    def _unique(self, seq, idfun=None):
+        if idfun is None:
+            def idfun(x): return x
+        seen = {}
+        result = []
+        for item in seq:
+            marker = idfun(item)
+            if marker in seen:
+                continue
+            seen[marker] = 1
+            result.append(item)
+        return result
+
+    def _get_related(self, req):
+        """
+        Recursively collects the dependencies and post actions for
+        the requirement.
+        """
+        depends = []
+        post = []
+        for d in req.depends:
+            dreq = getattr(self, d)
+            reldepends, relpost = self._get_related(dreq)
+            depends.extend(reldepends)
+            post.extend(relpost)
+        depends.extend(req.depends)
+        post.extend(req.post)
+        return depends, post
+
+    def _apply_seq(self, seq):
+        """
+        Applies an ordered list of requirements, their dependencies,
+        and their post actions.
+        """
+        # For each in the sequence, recursively add all requirements
+        # Add all in the sequence that haven't been added
+        # Add all the post actions
+        to_apply = []
+        post_apply = []
+        for name, req in seq:
+            depends, post = self._get_related(req)
+            to_apply.extend(depends)
+            to_apply.append(req)
+            post_apply.extend(post)
+
+        # We need to convert all to their appropriate requirements
+        # objects before applying any uniqueness
+        def _get(req):
+            if callable(req):
+                return req
+            else:
+                return getattr(self, req)
+        to_apply = map(_get, to_apply)
+        post_apply = map(_get, post_apply)
+
+        to_apply = self._unique(to_apply)
+        post_apply = self._unique(post_apply)
+        to_apply.extend(post_apply)
+
+        for req in to_apply:
+            req()
+
 
     def __getitem__(self, name):
         "Returns a Requirement with the given name."

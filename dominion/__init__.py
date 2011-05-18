@@ -6,6 +6,7 @@ from dominion.host import Host
 from dominion.package import Package
 from dominion.base import Requirement
 from dominion.role import Role
+from dominion.service import Service
 from dominion.template import put_template
 from dominion.utils import get_host_role
 
@@ -18,7 +19,8 @@ __all__ = ('configure',
     'Host',
     'Package',
     'Requirement',
-    'Role')
+    'Role',
+    'Service')
 
 def configure(debug=False, template_dirs=()):
     settings.configure(DEBUG=debug,
