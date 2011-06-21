@@ -36,16 +36,17 @@ class BaseEnvironment(object):
         "Returns the Fabric roledefs for this environment."
         result = dict((k,[]) for k in self.roles.iterkeys())
         for host in self.hosts.itervalues():
-            result[host.rolename].append(host.hostname)
+            for r in host.rolenames:
+                result[r].append(host.hostname)
         return result
 
     def get_host(self):
         "Returns the current Host object."
         return self.hostnames[env.host]
 
-    def get_role(self):
-        "Returns the Role object for the current Host."
-        return self.hostnames[env.host].role
+    def get_roles(self):
+        "Returns the roles array for the current Host."
+        return self.hostnames[env.host].roles
 
 
 class Environment(BaseEnvironment):

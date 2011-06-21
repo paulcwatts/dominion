@@ -11,8 +11,6 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from django.utils._os import safe_join
 
-from dominion.utils import get_host_role
-
 def get_templates(template_name):
     """
     Get the set of possible templates for the specific template name
@@ -22,15 +20,12 @@ def get_templates(template_name):
     denv = env['denv']
     host = denv.get_host()
     host_name = host.hostname
-    role_name = host.rolename
     for d in settings.TEMPLATE_DIRS:
         try:
-            result.extend([
-                safe_join(d, "hosts", host_name, template_name),
-                safe_join(d, "roles", role_name, template_name),
-                safe_join(d, "env", denv.name, template_name),
-                safe_join(d, template_name)
-            ])
+            result.append(safe_join(d, "hosts", host_name, template_name),)
+            result.extend([safe_join(d, "roles", r, template_name) for r in host.rolenames])
+            result.append(safe_join(d, "env", denv.name, template_name))
+            result.append(safe_join(d, template_name))
         except UnicodeDecodeError:
             # The template dir name was a bytestring that wasn't valid UTF-8.
             raise

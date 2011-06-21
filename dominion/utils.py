@@ -2,15 +2,6 @@ from django.utils.datastructures import SortedDict
 
 from fabric.api import env
 
-def get_host_role(host):
-    """
-    For a specific hostname, return the host's role.
-    """
-    for k,v in env.roledefs.iteritems():
-        if host in v:
-            return k
-
-
 def get_declared_fields(field_type, base_attr, declared_attr, bases, attrs, with_base_fields=True):
     """
     Create a list of field instances from the passed in 'attrs', plus any
