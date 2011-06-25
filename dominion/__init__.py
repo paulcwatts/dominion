@@ -29,5 +29,6 @@ def set_env(env, denv):
     env['denv'] = denv
     env.user = denv.user
     env.roledefs = denv.get_roledefs()
+    env.hosts = denv.get_host_list()
     env['name'] = denv.name
     env['get_host'] = denv.get_host

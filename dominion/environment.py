@@ -48,6 +48,9 @@ class BaseEnvironment(object):
         "Returns the roles array for the current Host."
         return self.hostnames[env.host].roles
 
+    def get_host_list(self):
+        return list(self.hostnames.iterkeys())
+
 
 class Environment(BaseEnvironment):
     "The top-level class describing a deployment environment."
