@@ -24,3 +24,12 @@ class Host(object):
         "Applies the role's requirements to this host."
         for r in self.roles:
             r.apply(name)
+
+    def __getitem__(self, name):
+        for r in self.roles:
+            try:
+                return getattr(r, name)
+            except AttributeError:
+                pass
+        # If we get here, then we know there's nothing
+        raise AttributeError('Unknown requirement for host: ' + str(name))

@@ -37,9 +37,11 @@ class BaseRole(object):
         if req == "all":
             return self._apply_seq(self.reqs.iteritems())
         if isinstance(req, tuple) or isinstance(req, list):
-            seq = [(name, self.reqs[name]) for name in req]
+            seq = [(name, self.reqs[name]) for name in req if name in self.reqs]
             return self._apply_seq(seq)
         else:
+            if req not in self.reqs:
+                return
             seq = ((req, self.reqs[req]),)
             return self._apply_seq(seq)
 
