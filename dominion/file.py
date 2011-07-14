@@ -49,7 +49,10 @@ class File(Requirement):
                          self.dictionary, use_sudo=self.use_sudo)
 
         elif self.content:
-            put(StringIO(self.content), self.name, use_sudo=self.use_sudo)
+            if isinstance(self.content, basestring):
+                put(StringIO(self.content), self.name, use_sudo=self.use_sudo)
+            else:
+                put(self.content, self.name, use_sudo=self.use_sudo)
 
         if self.owner or self.group:
             if self.group:
