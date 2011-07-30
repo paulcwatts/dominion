@@ -13,6 +13,18 @@ class Service(Requirement):
     def __repr__(self):
         return 'dominion.Service:' + str(self.name)
 
+    def contribute_to_class(self, role, name):
+        setattr(role, name, self)
+        def _start():
+            getattr(role, name).start()
+        def _stop():
+            getattr(role, name).stop()
+        def _restart():
+            getattr(role, name).restart()
+        setattr(role, name+"_start", _start)
+        setattr(role, name+"_stop", _stop)
+        setattr(role, name+"_restart", _restart)
+
     def install(self):
         pass
 

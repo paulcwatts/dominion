@@ -27,7 +27,10 @@ class BaseRole(object):
         # easier access (this is in lieu of a more complex
         # contribute_to_class idiom like Django models)
         for k, v in self.reqs.iteritems():
-            setattr(self, k, v)
+            if hasattr(v, 'contribute_to_class'):
+                v.contribute_to_class(self, k)
+            else:
+                setattr(self, k, v)
 
         # Increase the creation counter, and save our local copy.
         self.creation_counter = Role.creation_counter
@@ -37,12 +40,12 @@ class BaseRole(object):
         if req == "all":
             return self._apply_seq(self.reqs.iteritems())
         if isinstance(req, tuple) or isinstance(req, list):
-            seq = [(name, self.reqs[name]) for name in req if name in self.reqs]
+            seq = [(name, getattr(self, name)) for name in req if hasattr(self, name)]
             return self._apply_seq(seq)
         else:
-            if req not in self.reqs:
+            if not hasattr(self, req):
                 return
-            seq = ((req, self.reqs[req]),)
+            seq = ((req, getattr(self, req)),)
             return self._apply_seq(seq)
 
     def _unique(self, seq, idfun=None):
@@ -64,14 +67,15 @@ class BaseRole(object):
         the requirement.
         """
         depends = []
+        reqdepends = getattr(req, 'depends', [])
         post = []
-        for d in req.depends:
+        for d in reqdepends:
             dreq = getattr(self, d)
             reldepends, relpost = self._get_related(dreq)
             depends.extend(reldepends)
             post.extend(relpost)
-        depends.extend(req.depends)
-        post.extend(req.post)
+        depends.extend(reqdepends)
+        post.extend(getattr(req, 'post', []))
         return depends, post
 
     def _apply_seq(self, seq):
