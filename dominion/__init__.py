@@ -4,6 +4,7 @@ from dominion.environment import Environment
 from dominion.file import File
 from dominion.host import Host
 from dominion.package import Package
+from dominion.package_repo import PackageRepo
 from dominion.base import Requirement
 from dominion.role import Role
 from dominion.service import Service
@@ -16,6 +17,7 @@ __all__ = ('configure',
     'File',
     'Host',
     'Package',
+    'PackageRepo',
     'Requirement',
     'Role',
     'Service')
