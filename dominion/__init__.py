@@ -8,6 +8,7 @@ from dominion.package_repo import PackageRepo
 from dominion.base import Requirement
 from dominion.role import Role
 from dominion.service import Service
+from dominion.shell_installer import ShellInstaller
 from dominion.template import put_template
 
 __all__ = ('configure',
@@ -20,7 +21,8 @@ __all__ = ('configure',
     'PackageRepo',
     'Requirement',
     'Role',
-    'Service')
+    'Service',
+    'ShellInstaller')
 
 def configure(debug=False, template_dirs=()):
     settings.configure(DEBUG=debug,
