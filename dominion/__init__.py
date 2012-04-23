@@ -24,10 +24,12 @@ __all__ = ('configure',
     'Service',
     'ShellInstaller')
 
+
 def configure(debug=False, template_dirs=()):
     settings.configure(DEBUG=debug,
                        TEMPLATE_DEBUG=debug,
                        TEMPLATE_DIRS=template_dirs)
+
 
 def set_env(env, denv):
     env['denv'] = denv

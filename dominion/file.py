@@ -1,11 +1,10 @@
 from StringIO import StringIO
 
-import django.utils.copycompat as copy
-
 from fabric.api import put, run, sudo, settings
 
 from dominion.base import Requirement
 from dominion.template import put_template
+
 
 class File(Requirement):
     "Defines a file or directory to be installed (or removed) from the host."

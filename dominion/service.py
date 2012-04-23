@@ -2,6 +2,7 @@ from fabric.api import sudo, settings
 
 from dominion.base import Requirement
 
+
 class Service(Requirement):
     "Defines a service running on the remote system."
     def __init__(self, name, *args, **kwargs):
@@ -15,15 +16,18 @@ class Service(Requirement):
 
     def contribute_to_class(self, role, name):
         setattr(role, name, self)
+
         def _start():
             getattr(role, name).start()
+
         def _stop():
             getattr(role, name).stop()
+
         def _restart():
             getattr(role, name).restart()
-        setattr(role, name+"_start", _start)
-        setattr(role, name+"_stop", _stop)
-        setattr(role, name+"_restart", _restart)
+        setattr(role, name + "_start", _start)
+        setattr(role, name + "_stop", _stop)
+        setattr(role, name + "_restart", _restart)
 
     def install(self):
         pass

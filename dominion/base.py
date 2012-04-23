@@ -1,4 +1,5 @@
 
+
 class Requirement(object):
     """
     Requirements are the basis for Dominion. They define

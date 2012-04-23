@@ -1,6 +1,6 @@
 from fabric.api import env
 
-from django.utils.copycompat import deepcopy
+from copy import deepcopy
 
 from dominion.host import Host
 from dominion.role import Role
@@ -12,6 +12,7 @@ from dominion.utils import get_declared_fields
 # In our case, we set base_roles and base_nodes,
 # and subclasses can then modify those
 #
+
 
 class EnvMetaclass(type):
     """
@@ -26,6 +27,7 @@ class EnvMetaclass(type):
 
         return new_class
 
+
 class BaseEnvironment(object):
     def __init__(self):
         self.hosts = deepcopy(self.base_hosts)
@@ -34,7 +36,7 @@ class BaseEnvironment(object):
 
     def get_roledefs(self):
         "Returns the Fabric roledefs for this environment."
-        result = dict((k,[]) for k in self.roles.iterkeys())
+        result = dict((k, []) for k in self.roles.iterkeys())
         for host in self.hosts.itervalues():
             for r in host.rolenames:
                 result[r].append(host.hostname)

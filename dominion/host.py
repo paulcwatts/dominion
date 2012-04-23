@@ -1,6 +1,7 @@
 
 from fabric.api import env
 
+
 class Host(object):
     "The definition of a single host in an environment."
     creation_counter = 0

@@ -1,4 +1,4 @@
-import django.utils.copycompat as copy
+import copy
 
 from fabric.api import sudo
 

@@ -1,9 +1,8 @@
-from itertools import ifilter
-
-from django.utils.copycompat import deepcopy
+from copy import deepcopy
 
 from dominion.base import Requirement
 from dominion.utils import get_declared_fields
+
 
 class RoleMetaclass(type):
     """
@@ -16,6 +15,7 @@ class RoleMetaclass(type):
                      cls).__new__(cls, name, bases, attrs)
 
         return new_class
+
 
 class BaseRole(object):
     "The role of a specific host."
@@ -50,7 +50,8 @@ class BaseRole(object):
 
     def _unique(self, seq, idfun=None):
         if idfun is None:
-            def idfun(x): return x
+            def idfun(x):
+                return x
         seen = {}
         result = []
         for item in seq:
@@ -88,7 +89,7 @@ class BaseRole(object):
         # Add all the post actions
         to_apply = []
         post_apply = []
-        for name, req in seq:
+        for _name, req in seq:
             depends, post = self._get_related(req)
             to_apply.extend(depends)
             to_apply.append(req)
@@ -111,7 +112,6 @@ class BaseRole(object):
         for req in to_apply:
             req()
 
-
     def __getitem__(self, name):
         "Returns a Requirement with the given name."
         try:
@@ -119,6 +119,7 @@ class BaseRole(object):
         except KeyError:
             raise KeyError('Key %r not found in Role' % name)
         return req
+
 
 class Role(BaseRole):
     "The role of a specific host."

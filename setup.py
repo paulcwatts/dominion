@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
       name='dominion',
-      version='0.2.2',
+      version='0.2.3',
       author='Paul Watts',
       author_email='paulcwatts@gmail.com',
       description='Easy, Pythonic configuration management. Think Puppet for Python/Django. In development',

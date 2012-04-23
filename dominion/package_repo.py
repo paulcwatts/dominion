@@ -1,8 +1,9 @@
-import django.utils.copycompat as copy
+import copy
 
 from fabric.api import sudo
 
 from dominion.base import Requirement
+
 
 class PackageRepo(Requirement):
     "Defines a package repository to be added (or removed) from the host."
@@ -16,9 +17,9 @@ class PackageRepo(Requirement):
 
         # These could potentially be defined explicitly by subclasses
         if not hasattr(self, 'install'):
-            self.install = getattr(self, '_install_'+self.manager, None)
+            self.install = getattr(self, '_install_' + self.manager, None)
         if not hasattr(self, 'uninstall'):
-            self.uninstall = getattr(self, '_uninstall_'+self.manager, None)
+            self.uninstall = getattr(self, '_uninstall_' + self.manager, None)
         if not self.install or not self.uninstall:
             raise ValueError("Unknown package manager: " + self.manager)
 

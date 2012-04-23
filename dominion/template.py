@@ -11,6 +11,7 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from django.utils._os import safe_join
 
+
 def get_templates(template_name):
     """
     Get the set of possible templates for the specific template name
@@ -35,6 +36,7 @@ def get_templates(template_name):
             # fatal).
             return template_name
     return result
+
 
 def put_template(template_name, remote_path, dictionary=None, **kwargs):
     d = dictionary or {}
