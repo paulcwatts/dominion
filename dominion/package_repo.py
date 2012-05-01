@@ -1,6 +1,6 @@
 import copy
 
-from fabric.api import sudo
+from fabric.api import run
 
 from dominion.base import Requirement
 
@@ -27,8 +27,14 @@ class PackageRepo(Requirement):
         return 'dominion.PackageRepo:' + str(self.repo_name)
 
     def _install_apt(self):
-        sudo("apt-add-repository " + self.repo_name)
-        sudo("apt-get update")
+        if self.repo_name.startswith('ppa:'):
+            name = 'http://ppa.launchpad.net/' + self.repo_name[4:]
+        else:
+            name = self.repo_name
+
+        fmt = """if [ -z "`cat /etc/apt/sources.list /etc/apt/sources.list.d/*.list | grep '%s'`" ]; then sudo apt-add-repository %s; sudo apt-get update; fi"""
+        cmd = fmt % (name, self.repo_name)
+        run(cmd)
 
     def _uninstall_apt(self):
         # No good way to do this
