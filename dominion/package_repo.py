@@ -32,7 +32,7 @@ class PackageRepo(Requirement):
         else:
             name = self.repo_name
 
-        fmt = """if [ -z "`cat /etc/apt/sources.list /etc/apt/sources.list.d/*.list | grep '%s'`" ]; then sudo apt-add-repository %s; sudo apt-get update; fi"""
+        fmt = """if [ -z "`cat /etc/apt/sources.list /etc/apt/sources.list.d/*.list | grep '%s'`" ]; then sudo apt-add-repository '%s'; sudo apt-get update; fi"""
         cmd = fmt % (name, self.repo_name)
         run(cmd)
 
